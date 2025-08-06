@@ -37,6 +37,25 @@ void SelectionSort(vector<int> &arr){ //TC =>O(n^2)
 
 }
 
+void InsertionSort(vector<int> &arr){ //TC =>O(n^2)
+
+    for(int i=1; i<arr.size(); i++){
+
+        int curr = arr[i];
+        int prev = i-1;
+
+        while(prev>=0 && arr[prev]>curr){
+            
+            arr[prev+1] = arr[prev];
+            prev--;
+
+        }
+
+        arr[prev+1] = curr;
+
+    }
+}
+
 int main(){
     vector<int> vec;
     vec.push_back(15);
@@ -55,7 +74,9 @@ int main(){
 
     // SelectionSort(vec);
 
-    BubbleSort(vec);
+    // BubbleSort(vec);
+
+    InsertionSort(vec);
 
 
     cout<<endl<<"after sorting "<<endl;
