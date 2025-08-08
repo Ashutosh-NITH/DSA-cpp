@@ -2,10 +2,12 @@
 #include<vector>
 using namespace std;
 
+//SC => O(N) due to temp vector 
+//TC => (total recursive calls) * (work done in each call)
+// total recursive calls = log(N) 
+// total TC O(nlogn)
 
-//TC =>O(N)
-
-void  Merge (vector<int> &vec , int st, int mid , int end){
+void  Merge (vector<int> &vec , int st, int mid , int end){ //O(N) =>work done in each cell
 
     int i=st ;
     int j=mid+1;
