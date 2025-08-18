@@ -1,4 +1,5 @@
 #include<iostream>
+#include<algorithm>
 #include<vector>
 #include<queue>
 using namespace std;
@@ -70,9 +71,9 @@ void postOrder_traversal(Node* root){ // TC => O(n)
 
     if(root==NULL) return;
 
-    postOrder_traversal(root);
+    postOrder_traversal(root->left);
 
-    postOrder_traversal(root);
+    postOrder_traversal(root->right);
 
     cout<<root->data<<" ";
 
@@ -105,7 +106,7 @@ void normal_levelOrder_traversal(Node* root){ //TC =>O(n)
     
 }
 
-void levelOrder_traversal(Node* root){ //TC =>O(n)
+void levelOrder_traversal(Node* root){ //TC =>O(n) & SC =>O(n)
 
     queue<Node*> q;
 
@@ -142,17 +143,66 @@ void levelOrder_traversal(Node* root){ //TC =>O(n)
     
 }
 
+
+int height(Node* root){ // post order traversal // TC => O(n)
+
+    if(root == NULL) return 0;
+
+    int leftHeight = height(root->left);
+    int rightHeight = height(root->right);
+
+    return (max(leftHeight , rightHeight) + 1 ); 
+
+}
+
+
+int height_2(Node* root){ // level order traversal //TC =>O(n) & SC =>O(n))
+
+    queue<Node*> q;
+    q.push(root);
+    q.push(NULL);
+    int count = 1;
+    
+    while(q.size()>0){
+
+        Node* curr = q.front();
+        q.pop();
+
+        if(curr==NULL){
+
+            if(!q.empty()){
+                count++;
+                q.push(NULL);
+                continue;
+            }else{
+                break;
+            }
+        }
+
+        if(curr->left!=NULL) q.push(curr->left);
+        if(curr->right!=NULL) q.push(curr->right);
+    }
+
+return count;
+}
+
 int main(){
 
     vector<int> preOrder = {1,2,-1,-1,3,4,-1,-1,5,-1,-1};
     Node* root = buildTree(preOrder); 
-    // preOrder_traversal(root);
-    // cout<<endl;
-    // inOrder_traversal(root);
-    // cout<<endl;
-    // postOrder_traversal(root);
-    // cout<<endl;
+    preOrder_traversal(root);
+    cout<<endl;
+    inOrder_traversal(root);
+    cout<<endl;
+    postOrder_traversal(root);
+    cout<<endl;
+    normal_levelOrder_traversal(root);
+    cout<<endl;
     levelOrder_traversal(root);
+    cout<<endl;
+    cout<<height(root);
+    cout<<endl;
+    cout<<height_2(root);
 
     return 0;
 }
