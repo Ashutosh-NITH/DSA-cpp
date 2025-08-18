@@ -186,23 +186,47 @@ int height_2(Node* root){ // level order traversal //TC =>O(n) & SC =>O(n))
 return count;
 }
 
+int countNodes(Node* root){ // post order traversal // TC => O(n)
+
+    if(root==NULL) return 0;
+
+    int leftCount = countNodes(root->left);
+    int rightCount = countNodes(root->right);
+
+return (leftCount+rightCount+1);
+}
+
+int sumOfNodes(Node* root){ // post order traversal // TC => O(n)
+
+    if(root==NULL)  return 0;
+
+    int leftSum = sumOfNodes(root->left);
+    int rightSum = sumOfNodes(root->right);
+
+return (leftSum + rightSum + root->data);
+
+}
+
 int main(){
 
     vector<int> preOrder = {1,2,-1,-1,3,4,-1,-1,5,-1,-1};
     Node* root = buildTree(preOrder); 
-    preOrder_traversal(root);
+    // preOrder_traversal(root);
+    // cout<<endl;
+    // inOrder_traversal(root);
+    // cout<<endl;
+    // postOrder_traversal(root);
+    // cout<<endl;
+    // normal_levelOrder_traversal(root);
+    // cout<<endl;
+    // levelOrder_traversal(root);
+    // cout<<endl;
+    // cout<<height(root);
+    // cout<<endl;
+    // cout<<height_2(root);
+    // cout<<endl;
+    cout<<countNodes(root);
     cout<<endl;
-    inOrder_traversal(root);
-    cout<<endl;
-    postOrder_traversal(root);
-    cout<<endl;
-    normal_levelOrder_traversal(root);
-    cout<<endl;
-    levelOrder_traversal(root);
-    cout<<endl;
-    cout<<height(root);
-    cout<<endl;
-    cout<<height_2(root);
-
+    cout<<sumOfNodes(root);
     return 0;
 }
