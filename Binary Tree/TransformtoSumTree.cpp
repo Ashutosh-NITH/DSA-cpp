@@ -45,6 +45,7 @@ void preOrder_traversal(Node* root){ // TC => O(n)
 
 }
 
+// same Q in GFG , but it has return type int
 int toSumTree(Node* root){ 
 
    if(root==NULL) return 0;
@@ -60,7 +61,7 @@ int toSumTree(Node* root){
     }else{
         root->data = root->data + leftSum + rightSum;
     return root->data;
-    
+
     }
           
 }
