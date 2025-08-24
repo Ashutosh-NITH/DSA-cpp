@@ -48,11 +48,35 @@ void inorder(Node* root){
     inorder(root->right);
 
 }
+
+bool search(Node* root , int target){ // TC => O(n)
+    
+    if(root == NULL) {
+        cout<<endl<<"not found"<<endl;
+        return true;
+    }
+    if(root->data == target){
+        cout<<endl<<"found"<<endl;
+        return true;
+    }
+
+    else if(target < root->data){
+
+        return search(root->left , target);
+
+    }else {
+
+        return  search(root->right , target);  
+
+    }
+
+}
 int main(){
     vector<int> arr = {3, 2, 1, 5, 6, 4};
     Node* root = buildTree(arr);
 
     inorder(root);
+    cout<<search(root , 6);
     
     return 0;
 }
