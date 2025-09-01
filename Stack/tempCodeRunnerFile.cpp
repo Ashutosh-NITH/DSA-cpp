@@ -66,7 +66,7 @@ string infixToPostfix(string infix) {
 // INFIX TO PREFIX CONVERSION STEPS :
 // 1. reverse the given infix expression
 // 2. after reversing convert the opening bracket to closing bracket and closing bracket to opening bracket
-// 3. then convert it from infix to postfix but with flipped associativity
+// 3. then convert it from infix to postfix
 // 4. then again reverse the postfix ans
 
 string reverse(string str){
@@ -78,53 +78,6 @@ string reverse(string str){
     
 return ans;
 }
-
-string infixToPostfix_forPREFIX(string infix) {
-    stack<char> s;
-    string ans = "";
-
-    for(int i = 0; i < infix.size(); i++) {
-        char c = infix[i];
-
-        // If operand → add to result
-        if((c >= 'A' && c <= 'Z') || 
-           (c >= 'a' && c <= 'z') || 
-           (c >= '0' && c <= '9')) {
-            ans += c;
-        }
-        // If '(' → push
-        else if(c == '(') {
-            s.push(c);
-        }
-        // If ')' → pop until '('
-        else if(c == ')') {
-            while(!s.empty() && s.top() != '(') {
-                ans += s.top();
-                s.pop();
-            }
-            if(!s.empty()) s.pop(); // pop '('
-        }
-        // Operator
-        else {
-            while(!s.empty() && 
-                 ((priority(c) < priority(s.top())) || 
-                  (priority(c) == priority(s.top()) && c == '^'))) { // changes condition 
-                ans += s.top();
-                s.pop();
-            }
-            s.push(c);
-        }
-    }
-
-    // Pop remaining operators
-    while(!s.empty()) {
-        ans += s.top();
-        s.pop();
-    }
-
-    return ans;
-}
-
 string infixToPrefix(string infix){
 
     string ans = reverse(infix); // step 1
@@ -134,12 +87,11 @@ string infixToPrefix(string infix){
         else if(ans[i]==')') ans[i]='(';
     }
 
-    ans = infixToPostfix_forPREFIX(ans); //step 3
+    ans = infixToPostfix(ans); //step 3
 
     ans = reverse(ans); //step 4
     return ans;
 }
-
 
 
 int main(){
