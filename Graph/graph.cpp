@@ -1,6 +1,7 @@
 #include<iostream>
 #include<vector>
 #include<list>
+#include<queue>
 using namespace std;
 
 // vertices symbol -> V
@@ -38,6 +39,68 @@ public:
             cout<<endl;
         }
     }
+
+    // BFS => travel to immediate neighbors first 
+
+    void BFS(){ // TC => O(V+E)
+
+        queue<int> q;
+        vector<bool> vis(V,false);
+
+        q.push(0);
+        vis[0] = true;
+
+        cout<<"BFS : ";
+
+        while (q.size()>0){
+
+            int u = q.front();
+            q.pop();
+            cout<<u<<" ";
+
+            for(int v : l[u]){ // v ->immediate neighbours
+
+                if(vis[v]==false){
+
+                    vis[v] = true;
+                    q.push(v); 
+                }
+            }
+        }
+
+        cout<<endl;
+        
+        
+    }
+
+
+    // DFS => keep going to first uvisited neighbour
+
+    void DFShelper(int src , vector<bool> vis){
+
+        cout<<src<<" ";
+        vis[src] = true;
+
+        for(int v : l[src]){
+
+            if(!vis[v]){
+                DFShelper(v , vis);
+            }
+        }
+
+
+    }
+
+    void DFS(){
+        int src = 0;
+        vector<bool> vis (V, false);
+
+        cout<<"DFS"<<" : ";
+
+        DFShelper(src , vis);
+
+        cout<<endl;
+    }
 };
 
 
@@ -47,9 +110,10 @@ int main(){
     g.addEdge(0,1);
     g.addEdge(1,2);
     g.addEdge(1,3);
-    g.addEdge(2,3);
     g.addEdge(2,4);
 
     g.print_Adjacency_List();
+    g.BFS();
+    g.DFS();
     return 0;
 }
