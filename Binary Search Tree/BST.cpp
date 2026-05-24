@@ -30,7 +30,7 @@ Node* insert( Node* root , int val ){
     
 return root;  
 }
-
+;
 Node* buildTree( vector<int> &vec ){
     Node* root = NULL;
 

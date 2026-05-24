@@ -44,9 +44,7 @@ string infixToPostfix(string infix) {
         }
         // Operator
         else {
-            while(!s.empty() && 
-                 ((priority(c) < priority(s.top())) || 
-                  (priority(c) == priority(s.top()) && c != '^'))) {
+            while(!s.empty() && ((priority(c) < priority(s.top())) || (priority(c) == priority(s.top()) && c != '^'))) {
                 ans += s.top();
                 s.pop();
             }
@@ -108,7 +106,7 @@ string infixToPostfix_forPREFIX(string infix) {
         else {
             while(!s.empty() && 
                  ((priority(c) < priority(s.top())) || 
-                  (priority(c) == priority(s.top()) && c == '^'))) { // changes condition 
+                  (priority(c) == priority(s.top()) && c != '^'))) { // changes condition 
                 ans += s.top();
                 s.pop();
             }
@@ -140,16 +138,85 @@ string infixToPrefix(string infix){
     return ans;
 }
 
+string postfixToInfix(string postfix){
+    stack<string> s;
 
+    int i=0; 
+
+    while(i<postfix.length()){
+        char c = postfix[i];
+
+        // If operand → add to result
+        if((c >= 'A' && c <= 'Z') || 
+           (c >= 'a' && c <= 'z') || 
+           (c >= '0' && c <= '9')) {
+
+            s.push(string(1,c));
+
+        }else{
+            string right = s.top();
+            s.pop();
+            string left = s.top();
+            s.pop();
+
+            string ans = "("+left+c+right+")";
+
+            s.push(ans);
+        }
+
+        i++;
+
+    }
+return s.top();
+}
+
+string prefixToInfix(string prefix){
+    stack<string> s;
+    int i=prefix.length()-1;
+
+    while(i>=0){
+        char c = prefix[i];
+
+        // If operand → add to result
+        if((c >= 'A' && c <= 'Z') || 
+           (c >= 'a' && c <= 'z') || 
+           (c >= '0' && c <= '9')) {
+
+            s.push(string(1,c));
+
+        }else{
+
+            string left = s.top();
+            s.pop();
+            string right = s.top();
+            s.pop();
+
+            string ans = "("+left+c+right+")";
+
+            s.push(ans);
+        }
+
+        i--;
+    }
+return s.top();
+}
 
 int main(){
     string infix = "a+b*(c^d-e)";
     string infix2 = "(a+b)*c-d+f";
+    string postfix = "ab-de+f*/";
+    string prefix = "*+pq-mn";
 
     string ans = infixToPostfix(infix);
     string ans2 = infixToPrefix(infix2);
+    string ans3 = postfixToInfix(postfix);
+    string ans4 = prefixToInfix(prefix);
     cout<<ans<<endl;
     cout<<ans2<<endl;
+    cout<<ans3<<endl;
+    cout<<ans4<<endl;
+
+    
 
     return 0;
 }
