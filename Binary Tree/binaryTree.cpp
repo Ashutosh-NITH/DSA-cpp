@@ -2,6 +2,7 @@
 #include<algorithm>
 #include<vector>
 #include<queue>
+#include<stack>
 using namespace std;
 
 class Node{
@@ -44,6 +45,120 @@ return root;
 // 3 => recursion based => DFS
 // 1 => iterator based = level order => BFS
 
+void iterative_preorder(Node* root){
+
+    stack<Node*> s;
+    s.push(root);
+
+    while(!s.empty()){
+        Node* curr = s.top();
+        s.pop();
+        cout<<curr->data<<" ";
+
+        
+        if(curr->right!=NULL){ // first right
+            s.push(curr->right);
+        }
+        if(curr->left!=NULL){
+            s.push(curr->left);
+        }
+    }
+}
+
+void iterative_inorder(Node* root){
+
+    stack<Node*> s;
+    Node* node = root;
+    while(1){
+        if(node!=NULL){
+            s.push(node);
+            node = node->left;
+        }else{
+            if(s.empty()) break;
+            Node* curr = s.top();
+            s.pop();
+            cout<<curr->data<<" ";
+            node = curr->right;
+        }
+    }
+}
+
+void iterative_postorder_2stack(Node* root){
+
+    stack<Node*> s;
+    stack<Node*> ans;
+    s.push(root);
+
+    while (!s.empty()){
+        Node* curr = s.top();
+        s.pop();
+        ans.push(curr);
+
+        if(curr->left!=NULL) s.push(curr->left);
+        if(curr->right!=NULL) s.push(curr->right);
+    }
+    while (!ans.empty()){
+        cout<<ans.top()->data<<" ";
+        ans.pop();
+    }
+}
+
+void iterative_postorder_1stack(Node* root){
+    stack<Node*> s;
+    Node* curr = root;
+    while (!s.empty() || curr!=NULL){
+        if(curr!=NULL){
+            s.push(curr);
+            curr = curr->left;
+        }else{  
+            Node* temp = s.top()->right;
+            if(temp==NULL){
+                temp = s.top();
+                s.pop();
+                cout<<temp->data<<" ";
+                while (!s.empty() && s.top()->right==temp){
+                    temp = s.top();
+                    s.pop();
+                    cout<<temp->data<<" ";
+                }
+            }else{
+                curr=temp;
+            }
+        }
+    }    
+}
+
+void iterative_all_in_one(Node* root){
+    stack<pair<Node* , int>> s;
+    vector<Node*> preOrder;
+    vector<Node*> inOrder;
+    vector<Node*> postOrder;
+    s.push({root , 1});
+    while(!s.empty()){
+        auto it = s.top();
+        Node* node = it.first;
+        int num = it.second;
+        s.pop();
+        if(num==1){
+            preOrder.push_back(node);
+            s.push({node , 2});
+            if(node->left!=NULL) s.push({node->left , 1});
+        }else if(num==2){
+            inOrder.push_back(node);
+            s.push({node , 3});
+            if(node->right!=NULL) s.push({node->right , 1});
+        }else{
+            postOrder.push_back(node);
+        }
+    }
+    cout<<endl<<"PreOrder"<<endl;
+    for(auto x: preOrder) cout<<x->data<<" ";
+    cout<<endl<<"InOrder"<<endl;
+    for(auto x: inOrder) cout<<x->data<<" ";
+    cout<<endl<<"PostOrder"<<endl;
+    for(auto x: postOrder) cout<<x->data<<" ";
+    
+}
 void preOrder_traversal(Node* root){ // TC => O(n)
 
     if(root == NULL) return;
@@ -78,7 +193,6 @@ void postOrder_traversal(Node* root){ // TC => O(n)
     cout<<root->data<<" ";
 
 }
-
 
 //Level Order Search (iterative) => BFS
 
@@ -213,10 +327,19 @@ int main(){
     Node* root = buildTree(preOrder); 
     // preOrder_traversal(root);
     // cout<<endl;
+    // iterative_preorder(root);
+    // cout<<endl;
     // inOrder_traversal(root);
+    // cout<<endl;
+    // iterative_inorder(root);
     // cout<<endl;
     // postOrder_traversal(root);
     // cout<<endl;
+    // iterative_postorder_2stack(root);
+    // cout<<endl;
+    // iterative_postorder_1stack(root);
+    // cout<<endl;
+    // iterative_all_in_one(root);
     // normal_levelOrder_traversal(root);
     // cout<<endl;
     // levelOrder_traversal(root);
@@ -225,8 +348,8 @@ int main(){
     // cout<<endl;
     // cout<<height_2(root);
     // cout<<endl;
-    cout<<countNodes(root);
-    cout<<endl;
-    cout<<sumOfNodes(root);
+    // cout<<countNodes(root);
+    // cout<<endl;
+    // cout<<sumOfNodes(root);
     return 0;
 }

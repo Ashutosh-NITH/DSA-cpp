@@ -12,13 +12,13 @@ using namespace std;
 class Graph{
     int V;
     list<int> *l; 
-// just like int *arr // dynamic array ... 
-// pointer to an array of linked lists
-// l[0] → list<int>
-// l[1] → list<int>
-// l[2] → list<int>
-// l[3] → list<int>
-// l[4] → list<int>
+    // just like int *arr // dynamic array ... 
+    // pointer to an array of linked lists
+    // l[0] → list<int>
+    // l[1] → list<int>
+    // l[2] → list<int>
+    // l[3] → list<int>
+    // l[4] → list<int>
 
 public:
 
